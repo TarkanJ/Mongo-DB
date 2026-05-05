@@ -22,3 +22,14 @@ Using Mongosh:          2.5.10
 
 For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
 ``` 
+
+Or run localhost:9800 - web management MongoDB
+
+check initial password for admin in logs ;)
+
+```
+mongo-db-mongo-express-1  | Mongo Express server listening at http://0.0.0.0:8081
+mongo-db-mongo-express-1  | Server is open to allow connections from anyone (0.0.0.0)
+mongo-db-mongo-express-1  | basicAuth credentials are "admin:pass", it is recommended you change this in your config.js!
+mongo-db-mongo-express-1  | GET / 200 151.947 ms - 10020
+```
