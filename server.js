@@ -28,7 +28,8 @@ start();
 
 // routes
 app.get('/', (req, res) => {
-  res.send("API běží 🚀");
+  // puvodni test - res.send("API běží 🚀");
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post('/update-profile', async (req, res) => {
