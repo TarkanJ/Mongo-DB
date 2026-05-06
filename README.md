@@ -26,7 +26,7 @@ rest of commands will be fixed later ...
 
 ### MongoDB login to container with database
 
-docker exec -it mongo-db-mongodb-1 mongosh
+👉 docker exec -it mongo-db-mongodb-1 mongosh
 
 It should look like this
 ```
@@ -38,9 +38,9 @@ Using Mongosh:          2.5.10
 For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
 ``` 
 
-Or run localhost:9800 - web management MongoDB
+👉 Or run localhost:9800 - web management MongoDB
 
-check initial password for admin in logs ;)
+check initial password for admin in logs 😄
 
 ```
 mongo-db-mongo-express-1  | Mongo Express server listening at http://0.0.0.0:8081
@@ -49,12 +49,12 @@ mongo-db-mongo-express-1  | basicAuth credentials are "admin:pass", it is recomm
 mongo-db-mongo-express-1  | GET / 200 151.947 ms - 10020
 ```
 
-LOGIN to MongoDB with User and Password
+👉 LOGIN to MongoDB with User and Password
 ```
 docker exec -it mongo-db-mongodb-1 mongosh -u admin -p mongo --authenticationDatabase admin
 ```
 
-Changing password for user "admin"
+👉 Changing password for user "admin"
 ```
 use admin
 db.changeUserPassword("admin", "new_password")
