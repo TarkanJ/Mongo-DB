@@ -10,14 +10,18 @@ docker compose down -v --rmi all
 
 
 ### Using Makefile
-make up - build, run containers & services in detached mode
-make logs - print out all logs
-make down - delete containers
-make restart - restarting all services
-make clean - completely remove all containers, volumes etc.
 
-rest of commands
-...will be fix later
+* make up - build, run containers & services in detached mode
+
+* make logs - print out all logs
+
+* make down - delete containers
+
+* make restart - restarting all services
+
+* make clean - completely remove all containers, volumes etc.
+
+rest of commands will be fixed later ...
 
 
 ### MongoDB login to container with database
@@ -50,8 +54,8 @@ LOGIN to MongoDB with User and Password
 docker exec -it mongo-db-mongodb-1 mongosh -u admin -p mongo --authenticationDatabase admin
 ```
 
-Changing password for user Admin
+Changing password for user "admin"
 ```
 use admin
-db.changeUserPassword("admin", "noveheslo")
+db.changeUserPassword("admin", "new_password")
 ```
