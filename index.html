@@ -1,93 +1,91 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Mongo Picture Upload Demo</title>
+  <title>MongoDB CRUD</title>
 </head>
 <body>
 
-  <h2>Uživatel</h2>
+<h2>Vytvořit uživatele</h2>
 
-  <!-- FORM pro data -->
-  <form id="profileForm">
-    <input type="text" id="name" placeholder="Jméno" required>
-    <br><br>
-    <input type="number" id="age" placeholder="Věk" required>
-    <br><br>
-    <button type="submit">Uložit profil</button>
-  </form>
+<input id="name" placeholder="Jméno">
+<input id="age" placeholder="Věk">
+<button onclick="createUser()">Vytvořit</button>
 
-  <h2>Upload obrázku</h2>
+<h2>Seznam</h2>
+<div id="users"></div>
 
-  <!-- FORM pro obrázek -->
-  <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" id="image" name="image" required>
-    <br><br>
-    <button type="submit">Nahrát obrázek</button>
-  </form>
+<script>
+async function createUser() {
+  await fetch('/users', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: name.value,
+      age: age.value
+    })
+  });
 
-  <h2>Výsledek</h2>
-  <pre id="output"></pre>
+  loadUsers();
+}
 
-  <h2>Profilový obrázek</h2>
-  <img id="preview" width="200"/>
+async function deleteUser(id) {
+  await fetch('/users/' + id, { method: 'DELETE' });
+  loadUsers();
+}
 
-  <script>
-    const output = document.getElementById('output');
-    const preview = document.getElementById('preview');
+async function updateUser(id) {
+  const newName = prompt("Nové jméno:");
+  const newAge = prompt("Nový věk:");
 
-    // ===== ULOŽENÍ PROFILU =====
-    document.getElementById('profileForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  await fetch('/users/' + id, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: newName, age: newAge })
+  });
 
-      const data = {
-        name: document.getElementById('name').value,
-        age: document.getElementById('age').value
-      };
+  loadUsers();
+}
 
-      const res = await fetch('/update-profile', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+async function uploadImage(id, input) {
+  const formData = new FormData();
+  formData.append('image', input.files[0]);
 
-      const result = await res.json();
-      output.textContent = JSON.stringify(result, null, 2);
-    });
+  await fetch('/upload/' + id, {
+    method: 'POST',
+    body: formData
+  });
 
-    // ===== UPLOAD OBRÁZKU =====
-    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+  loadUsers();
+}
 
-      const formData = new FormData();
-      formData.append('image', document.getElementById('image').files[0]);
+async function loadUsers() {
+  const res = await fetch('/users');
+  const users = await res.json();
 
-      const res = await fetch('/upload', {
-        method: 'POST',
-        body: formData
-      });
+  const container = document.getElementById('users');
+  container.innerHTML = '';
 
-      const result = await res.json();
-      output.textContent = JSON.stringify(result, null, 2);
+  users.forEach(u => {
+    const div = document.createElement('div');
 
-      // zobraz obrázek
-      preview.src = result.path;
-    });
+    div.innerHTML = `
+      <hr>
+      <b>${u.name}</b> (${u.age})
+      <br>
+      ${u.profileImage ? `<img src="${u.profileImage}" width="120"/>` : 'Bez obrázku'}
+      <br><br>
+      <button onclick="updateUser('${u._id}')">Edit</button>
+      <button onclick="deleteUser('${u._id}')">Delete</button>
+      <br>
+      <input type="file" onchange="uploadImage('${u._id}', this)">
+    `;
 
-    // ===== NAČTENÍ PROFILU =====
-    async function loadProfile() {
-      const res = await fetch('/get-profile');
-      const data = await res.json();
+    container.appendChild(div);
+  });
+}
 
-      if (data.profileImage) {
-        preview.src = data.profileImage;
-      }
-
-      output.textContent = JSON.stringify(data, null, 2);
-    }
-
-    loadProfile();
-  </script>
+loadUsers();
+</script>
 
 </body>
 </html>
