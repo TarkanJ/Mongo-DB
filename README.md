@@ -9,6 +9,17 @@ docker compose up --build
 docker compose down -v --rmi all
 
 
+### Using Makefile
+make up - build, run containers & services in detached mode
+make logs - print out all logs
+make down - delete containers
+make restart - restarting all services
+make clean - completely remove all containers, volumes etc.
+
+rest of commands
+...will be fix later
+
+
 ### MongoDB login to container with database
 
 docker exec -it mongo-db-mongodb-1 mongosh
@@ -32,4 +43,15 @@ mongo-db-mongo-express-1  | Mongo Express server listening at http://0.0.0.0:808
 mongo-db-mongo-express-1  | Server is open to allow connections from anyone (0.0.0.0)
 mongo-db-mongo-express-1  | basicAuth credentials are "admin:pass", it is recommended you change this in your config.js!
 mongo-db-mongo-express-1  | GET / 200 151.947 ms - 10020
+```
+
+LOGIN to MongoDB with User and Password
+```
+docker exec -it mongo-db-mongodb-1 mongosh -u admin -p mongo --authenticationDatabase admin
+```
+
+Changing password for user Admin
+```
+use admin
+db.changeUserPassword("admin", "noveheslo")
 ```
