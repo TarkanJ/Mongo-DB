@@ -73,7 +73,7 @@ db.users.find()
 db.users.find().pretty()
 ```
 
-INSERT
+✏️ INSERT
 ```
 db.users.insertOne({ name: "Martin", age: 25 })
 ```
