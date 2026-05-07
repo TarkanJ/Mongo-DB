@@ -59,3 +59,39 @@ docker exec -it mongo-db-mongodb-1 mongosh -u admin -p mongo --authenticationDat
 use admin
 db.changeUserPassword("admin", "new_password")
 ```
+
+🧠 Basic MongoDB commands
+```
+show dbs
+use martino-db
+show collections(show tables)
+db.users.find()
+```
+
+👁️ Nicer output
+```
+db.users.find().pretty()
+```
+
+INSERT
+```
+db.users.insertOne({ name: "Martin", age: 25 })
+```
+
+✏️ UPDATE
+```
+db.users.updateOne(
+  { userid: 1 },
+  { $set: { name: "Nové jméno" } }
+)
+```
+
+❌ DELETE
+```
+db.users.deleteOne({ userid: 1 })
+```
+
+* DB Debug
+```
+console.log("DB:", db);
+```
